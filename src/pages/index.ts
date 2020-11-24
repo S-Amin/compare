@@ -10,7 +10,6 @@ const regex = /(^\.|\/index\.tsx$|\.tsx$)/g;
 requireModule.keys().forEach((fileName) => {
   if (fileName === "./index.ts") return;
   const moduleName = fileName.replace(regex, "");
-  console.log({ fileName, moduleName });
   if (moduleName) pages[moduleName] = requireModule(fileName).default;
 });
 
