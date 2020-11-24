@@ -1,0 +1,12 @@
+// the product columns would be limited
+// usually never exceed over 7 items
+@for $i from 1 to 7 {
+  .hide_c#{$i} {
+    th,
+    td {
+      &:nth-of-type(#{$i}) {
+        display: none;
+      }
+    }
+  }
+}
