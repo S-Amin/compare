@@ -6,6 +6,8 @@ const Home = () => {
     <h1 style={{ textAlign: "center" }}>
       <div>Created by the React.js, Typescript</div>
       <Link to="/compare">Compare Page</Link>
+      <br />
+      <Link to="/home">Home</Link>
     </h1>
   );
 };

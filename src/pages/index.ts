@@ -1,16 +1,4 @@
-const requireModule = require.context("./", true, /\.tsx$/);
+import { lazy } from "react";
 
-interface LooseObject {
-  [key: string]: any;
-}
-
-const pages: LooseObject = {};
-const regex = /(^\.|\/index\.tsx$|\.tsx$)/g;
-
-requireModule.keys().forEach((fileName) => {
-  if (fileName === "./index.ts") return;
-  const moduleName = fileName.replace(regex, "");
-  if (moduleName) pages[moduleName] = requireModule(fileName).default;
-});
-
-export default pages;
+export const Home = lazy(() => import("pages/home"));
+export const Compare = lazy(() => import("pages/compare"));
