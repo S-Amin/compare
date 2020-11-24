@@ -3,6 +3,7 @@ import axios from "../../config/axios.config";
 import Table, { Thead } from "../../components/Table";
 import Image from "../../components/_Base/Image";
 import _ from "lodash";
+import sass from "./compare.module.scss";
 
 const Compare = () => {
   const [products, setProducts] = useState<any[]>([]);
@@ -33,9 +34,11 @@ const Compare = () => {
     setProducts(p);
   };
 
-  const productVisibility = (index: number) => (e: React.MouseEvent) => {
+  const productVisibility = (index: number) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const h = [...hiddenColumns];
-    h[index] = !(e.target as HTMLInputElement).checked;
+    h[index] = !e.target.checked;
     setHiddenColumns(h);
   };
 
@@ -61,20 +64,27 @@ const Compare = () => {
                 type="checkbox"
                 id={"p" + i}
                 checked={!hiddenColumns[i + 1]}
-                onClick={productVisibility(i + 1)}
+                onChange={productVisibility(i + 1)}
               />
               <label htmlFor={"p" + i}>{product.name}</label>
             </div>
           ))}
         </form>
       </div>
+      {/* header for each item */}
       {products.map((product, i) => (
-        <div key={product.sku}>
-          <button onClick={() => removeProduct(i)}>remove</button>
-          <Image src={product.productImage} alt={product.name} />
+        <div key={product.sku} className={sass.tableHeader}>
+          <button className="link" onClick={() => removeProduct(i)}>
+            <img width={20} src="/rmv.svg" alt="remove" />
+          </button>
+          <Image
+            className={sass.primaryImg}
+            src={product.productImage}
+            alt={product.name}
+          />
           <h2>{product.name}</h2>
-          <strong>{product.salePrice}</strong>
-          <p>per stuck / excl. btw</p>
+          <strong className={sass.price}>{product.salePrice}</strong>
+          <p className={sass.subPrice}>per stuck / excl. btw</p>
           <hr />
           {(product.badges as string).split("|").map((b, i) => (
             <Image key={i} src={b} alt="" width="20" />
