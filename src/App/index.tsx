@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as pages from "../pages";
+import "../layouts/global.scss";
 import sass from "./App.module.scss";
 
 function App() {
