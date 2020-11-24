@@ -1,5 +1,6 @@
 import React, { ReactNodeArray } from "react";
-import Tbody, { IData } from "./Tbody";
+import Tbody from "./Tbody";
+import { IData } from "../../shared/_type";
 import sass from "./table.module.scss";
 
 export interface ITable {
@@ -16,7 +17,7 @@ const Table: React.FC<ITable> = ({ header, data, hiddenColumns }) => {
 
   return (
     <div>
-      <table className={classes}>
+      <table className={sass.table + " " + classes}>
         {header}
         <Tbody data={data} />
       </table>

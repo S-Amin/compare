@@ -1,8 +1,8 @@
 import React from "react";
+import { IData } from "../../shared/_type";
+import { isDifferent } from "../../utils/compare";
+import sass from "./table.module.scss";
 
-export interface IData {
-  [key: string]: any;
-}
 export interface ITbody {
   data: IData[];
 }
@@ -21,21 +21,14 @@ const Tbody: React.FC<ITbody> = ({ data }) => {
   );
   return (
     <tbody>
-      {Features.map((key) => {
-        let diff = false;
-        let temp = data[0][key];
-        const val = data.map((d, i) => {
-          diff = diff || temp !== d[key];
-          temp = typeof d[key] === "string" ? d[key] : "";
-          return <td key={i}>{temp}</td>;
-        });
-        return (
-          <tr key={key} className={diff ? "diff" : ""}>
-            <td>{key}</td>
-            {val}
-          </tr>
-        );
-      })}
+      {Features.map((key) => (
+        <tr key={key} className={isDifferent(data, key) ? sass.diff : ""}>
+          <td>{key}</td>
+          {data.map((d, i) => (
+            <td key={i}>{typeof d[key] === "string" ? d[key] : ""}</td>
+          ))}
+        </tr>
+      ))}
     </tbody>
   );
 };

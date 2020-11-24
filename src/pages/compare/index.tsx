@@ -6,7 +6,7 @@ import _ from "lodash";
 
 const Compare = () => {
   const [products, setProducts] = useState<any[]>([]);
-  const [hide, setHide] = useState<boolean[]>([]);
+  const [hiddenColumns, setHiddenColumns] = useState<boolean[]>([]);
   const NOT_COMPARABLE = [
     "salePrice",
     "manufacturerName",
@@ -34,16 +34,16 @@ const Compare = () => {
   };
 
   const productVisibility = (index: number) => (e: React.MouseEvent) => {
-    const h = [...hide];
-    h[index] = (e.target as HTMLInputElement).checked;
-    setHide(h);
+    const h = [...hiddenColumns];
+    h[index] = !(e.target as HTMLInputElement).checked;
+    setHiddenColumns(h);
   };
 
   const fetch = () => {
     axios.get("/eriks/products/all").then((res) => {
       if (res.data.products.length < 1) return;
       setProducts(res.data.products);
-      setHide(new Array(res.data.products.length));
+      setHiddenColumns(new Array(res.data.products.length + 1));
     });
   };
   useEffect(() => {
@@ -54,11 +54,13 @@ const Compare = () => {
     <Thead>
       <div>
         <form>
+          <p>Selected Items</p>
           {products.map((product, i) => (
             <div key={product.sku}>
               <input
                 type="checkbox"
                 id={"p" + i}
+                checked={!hiddenColumns[i + 1]}
                 onClick={productVisibility(i + 1)}
               />
               <label htmlFor={"p" + i}>{product.name}</label>
@@ -70,9 +72,9 @@ const Compare = () => {
         <div key={product.sku}>
           <button onClick={() => removeProduct(i)}>remove</button>
           <Image src={product.productImage} alt={product.name} />
-          <p>{product.name}</p>
+          <h2>{product.name}</h2>
           <strong>{product.salePrice}</strong>
-          <span>per stuck / excl. btw</span>
+          <p>per stuck / excl. btw</p>
           <hr />
           {(product.badges as string).split("|").map((b, i) => (
             <Image key={i} src={b} alt="" width="20" />
@@ -85,7 +87,7 @@ const Compare = () => {
   // remove unwanted key in product object
   const data = products.map((product) => _.omit(product, NOT_COMPARABLE));
 
-  return <Table header={head} data={data} hiddenColumns={hide} />;
+  return <Table header={head} data={data} hiddenColumns={hiddenColumns} />;
 };
 
 export default Compare;
