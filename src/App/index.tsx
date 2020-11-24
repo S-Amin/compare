@@ -1,14 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as pages from "../pages";
-import "../layouts/global.scss";
-import sass from "./App.module.scss";
+import Theme from "../layouts/theme";
 
 function App() {
   const Pages = { ...pages.default };
   return (
-    <div className="App">
-      <header className={sass.AppHeader}>Header</header>
+    <Theme>
       <Router>
         <Switch>
           <Route path="/" component={Pages["/home"]} exact />
@@ -17,7 +15,7 @@ function App() {
           ))}
         </Switch>
       </Router>
-    </div>
+    </Theme>
   );
 }
 
