@@ -36,6 +36,7 @@ const Image: React.FC<IImage> = ({
   else
     return (
       <div {...props}>
+        {/* an SVG to be loaded if the image is not accessible  */}
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
