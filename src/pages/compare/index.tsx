@@ -56,8 +56,8 @@ const Compare = () => {
   const head = (
     <Thead>
       <div>
-        <form>
-          <p>Selected Items</p>
+        <form className={sass.form}>
+          <h3>Selected Items</h3>
           {products.map((product, i) => (
             <div key={product.sku}>
               <input
@@ -97,7 +97,14 @@ const Compare = () => {
   // remove unwanted key in product object
   const data = products.map((product) => _.omit(product, NOT_COMPARABLE));
 
-  return <Table header={head} data={data} hiddenColumns={hiddenColumns} />;
+  return (
+    <Table
+      className={sass.table}
+      header={head}
+      data={data}
+      hiddenColumns={hiddenColumns}
+    />
+  );
 };
 
 export default Compare;

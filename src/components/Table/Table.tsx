@@ -8,7 +8,13 @@ export interface ITable extends HTMLAttributes<HTMLTableElement> {
   data: IData[];
   hiddenColumns?: boolean[];
 }
-const Table: React.FC<ITable> = ({ header, data, hiddenColumns }) => {
+const Table: React.FC<ITable> = ({
+  header,
+  data,
+  hiddenColumns,
+  className,
+  ...props
+}) => {
   // hide columns with css for better performance
   let classes = "";
   hiddenColumns?.forEach((val, i) => {
@@ -17,7 +23,7 @@ const Table: React.FC<ITable> = ({ header, data, hiddenColumns }) => {
 
   return (
     <div>
-      <table className={sass.table + " " + classes}>
+      <table className={`${sass.table} ${classes} ${className}`} {...props}>
         {header}
         <Tbody data={data} />
       </table>

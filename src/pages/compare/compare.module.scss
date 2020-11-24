@@ -10,6 +10,14 @@
     margin-right: 5px;
   }
 }
+
+.form {
+  font-size: 1.3em;
+  label {
+    cursor: pointer;
+  }
+}
+
 .primaryImg {
   height: 130px;
   width: 100%;
@@ -24,4 +32,13 @@
 .subPrice {
   color: $grey-color;
   margin-top: 0;
+}
+
+.table {
+  tbody td {
+    font-weight: bold;
+    &:first-of-type {
+      color: $second-grey-color;
+    }
+  }
 }

@@ -12,8 +12,8 @@ const Image: React.FC<IImage> = ({
   alt,
   width,
   height,
-  className,
   onError,
+  ...props
 }) => {
   const [broken, setBroken] = useState(false);
   const errorHandle = (e: any) => {
@@ -29,13 +29,13 @@ const Image: React.FC<IImage> = ({
         alt={alt}
         width={width}
         height={height}
-        className={className}
+        {...props}
         onError={errorHandle}
       />
     );
   else
     return (
-      <div className={className}>
+      <div {...props}>
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
