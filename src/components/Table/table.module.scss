@@ -1,4 +1,5 @@
 // only style related to table
+@import "../../layouts/global.var.scss";
 .table {
   border-color: #ccc;
   border-collapse: collapse;
@@ -19,11 +20,11 @@
     font-size: 0.8em;
     padding: 5px 10px;
     vertical-align: bottom;
-    color: #3a86ff;
+    color: $secondary-color;
     text-align: start;
     &:first-of-type {
       vertical-align: top;
-      color: #222;
+      color: $primary-color;
     }
   }
 

@@ -1,9 +1,9 @@
-import React, { ReactNodeArray } from "react";
+import React, { HTMLAttributes, ReactNodeArray } from "react";
 import Tbody from "./Tbody";
 import { IData } from "../../shared/_type";
 import sass from "./table.module.scss";
 
-export interface ITable {
+export interface ITable extends HTMLAttributes<HTMLTableElement> {
   header?: JSX.Element | ReactNodeArray;
   data: IData[];
   hiddenColumns?: boolean[];
