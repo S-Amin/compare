@@ -3,9 +3,11 @@ import React, { useState } from "react";
 interface IImage {
   src: string;
   alt: string;
+  width?: string;
+  height?: string;
   onError?: () => void;
 }
-const Image: React.FC<IImage> = ({ src, alt, onError }) => {
+const Image: React.FC<IImage> = ({ src, alt, width, height, onError }) => {
   const [broken, setBroken] = useState(false);
   const errorHandle = (e: any) => {
     console.log({ e });
@@ -13,7 +15,16 @@ const Image: React.FC<IImage> = ({ src, alt, onError }) => {
     if (onError) onError();
     else setBroken(true);
   };
-  if (!broken) return <img src={src} alt={alt} onError={errorHandle} />;
+  if (!broken)
+    return (
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        onError={errorHandle}
+      />
+    );
   else
     return (
       <svg
