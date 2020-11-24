@@ -54,7 +54,7 @@ const Compare = () => {
   }, []);
 
   const head = (
-    <Thead>
+    <Thead className={sass.tableHeaderCell}>
       <div>
         <form className={sass.form}>
           <h3>Selected Items</h3>
@@ -73,7 +73,7 @@ const Compare = () => {
       </div>
       {/* header for each item */}
       {products.map((product, i) => (
-        <div key={product.sku} className={sass.tableHeader}>
+        <div key={product.sku}>
           <button className="link" onClick={() => removeProduct(i)}>
             <img width={20} src="/rmv.svg" alt="remove" />
           </button>

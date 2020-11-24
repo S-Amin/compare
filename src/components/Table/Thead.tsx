@@ -1,14 +1,14 @@
-import React, { ReactNode, ReactNodeArray } from "react";
+import React, { HTMLAttributes, ReactNode, ReactNodeArray } from "react";
 
-export interface IThead {
+export interface IThead extends HTMLAttributes<HTMLTableHeaderCellElement> {
   children: ReactNodeArray | ReactNode;
 }
-const Thead: React.FC<IThead> = ({ children }) => {
+const Thead: React.FC<IThead> = ({ children, ...props }) => {
   return (
     <thead>
       <tr>
         {React.Children.map(children, (child) => (
-          <th>{child}</th>
+          <th {...props}>{child}</th>
         ))}
       </tr>
     </thead>
