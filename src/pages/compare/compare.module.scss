@@ -1,0 +1,44 @@
+@import "../../layouts/global.var.scss";
+.tableHeaderCell {
+  position: relative;
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  img {
+    margin-right: 5px;
+  }
+}
+
+.form {
+  font-size: 1.3em;
+  label {
+    cursor: pointer;
+  }
+}
+
+.primaryImg {
+  height: 130px;
+  width: 100%;
+  object-fit: contain;
+  margin: auto;
+}
+.price {
+  color: $primary-color;
+  font-size: 2em;
+}
+
+.subPrice {
+  color: $grey-color;
+  margin-top: 0;
+}
+
+.table {
+  tbody td {
+    font-weight: bold;
+    &:first-of-type {
+      color: $second-grey-color;
+    }
+  }
+}
