@@ -1,4 +1,5 @@
 import React, { ReactNode, ReactNodeArray } from "react";
+import { Link } from "react-router-dom";
 import "./global.scss";
 
 interface ITheme {
@@ -8,7 +9,11 @@ const Theme: React.FC<ITheme> = ({ children }) => {
   return (
     <>
       <header className="header">
-        <h1>Compare table components</h1>
+        <h3>Compare table components</h3>
+        <div>
+          <Link to="/compare">Compare Page</Link>
+          <Link to="/">Home</Link>
+        </div>
       </header>
       <div className="container">{children}</div>
     </>

@@ -6,14 +6,14 @@ import Theme from "../layouts/theme";
 function App() {
   return (
     <Suspense fallback={<div>loading ...</div>}>
-      <Theme>
-        <Router>
+      <Router>
+        <Theme>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/compare" component={Compare} />
           </Switch>
-        </Router>
-      </Theme>
+        </Theme>
+      </Router>
     </Suspense>
   );
 }

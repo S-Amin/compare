@@ -20,6 +20,17 @@ code {
   text-align: center;
   background-color: $primary-color;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  > * {
+    display: flex;
+  }
+  a {
+    color: #ddd;
+    padding: 1em 0;
+    margin: 0 0 0 10px;
+    text-decoration: none;
+  }
 }
 
 .container {
