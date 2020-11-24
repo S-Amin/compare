@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../config/axios.config";
-import Table, { Thead } from "../../components/Table";
-import Image from "../../components/_Base/Image";
+import axios from "config/axios.config";
+import Table, { Thead } from "components/Table";
+import Image from "components/_Base/Image";
 import _ from "lodash";
 import sass from "./compare.module.scss";
 
@@ -43,11 +43,14 @@ const Compare = () => {
   };
 
   const fetch = () => {
-    axios.get("/eriks/products/all").then((res) => {
-      if (res.data.products.length < 1) return;
-      setProducts(res.data.products);
-      setHiddenColumns(new Array(res.data.products.length + 1));
-    });
+    axios
+      .get("/eriks/products/all")
+      .then((res) => {
+        if (res.data.products.length < 1) return;
+        setProducts(res.data.products);
+        setHiddenColumns(new Array(res.data.products.length + 1));
+      })
+      .catch((err) => console.error(err));
   };
   useEffect(() => {
     fetch();
@@ -59,7 +62,7 @@ const Compare = () => {
         <form className={sass.form}>
           <h3>Selected Items</h3>
           {products.map((product, i) => (
-            <div key={product.sku}>
+            <div key={product?.sku}>
               <input
                 type="checkbox"
                 id={"p" + i}
@@ -74,7 +77,7 @@ const Compare = () => {
       {/* header for each item */}
       {products.map((product, i) => (
         <div key={product.sku}>
-          <button className="link" onClick={() => removeProduct(i)}>
+          <button className="link remove" onClick={() => removeProduct(i)}>
             <img width={20} src="/rmv.svg" alt="remove" />
           </button>
           <Image
@@ -86,9 +89,11 @@ const Compare = () => {
           <strong className={sass.price}>{product.salePrice}</strong>
           <p className={sass.subPrice}>per stuck / excl. btw</p>
           <hr />
-          {(product.badges as string).split("|").map((b, i) => (
-            <Image key={i} src={b} alt="" width="20" />
-          ))}
+          {!product.badges
+            ? ""
+            : (product.badges as string)
+                .split("|")
+                .map((b, i) => <Image key={i} src={b} alt="" width="20" />)}
         </div>
       ))}
     </Thead>

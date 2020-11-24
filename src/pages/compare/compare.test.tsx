@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, waitFor, fireEvent } from "@testing-library/react";
 import Compare from ".";
 import axios from "config/axios.config";
 
@@ -37,6 +37,7 @@ const products = [
     uom: "Stuk",
   },
   {
+    name: "testw",
     Artikelnummer: "115E19",
     BUP_Conversion: "",
     BUP_UOM: "",
@@ -53,21 +54,39 @@ const products = [
     badges:
       "https://eriksdigitalcdn.azureedge.net/shop/thumb40/hlr-system/egt/pubnl/pim_icons/rohs-icon-nl.jpg|https://eriksdigitalcdn.azureedge.net/shop/thumb40/hlr-system/egt/pubnl/pim_icons/rohs-icon-nl.jpg|https://eriksdigitalcdn.azureedge.net/shop/thumb40/hlr-system/egt/pubnl/pim_icons/omega-slang-icon-nl.jpg|https://eriksdigitalcdn.azureedge.net/shop/thumb40/hlr-system/egt/pubnl/pim_icons/o-t-symbol-icon-nl.jpg",
     channel: "nl_NL",
+    sku: "d23d2",
   },
   {
     name: "test",
+    Materiaal: "EPDM",
+    Snoerdikte: "2.62",
+    Temperatuurgebied: "van  -50  tot  150",
+    Toepassing: "Voedsel en dranken",
+    sku: "115derf54E19",
   },
 ];
 
 test("compare components", async () => {
-  const resp = { data: { products } };
+  const res = { data: { products } };
   const mockedAxios = jest.spyOn(axios, "get");
-  mockedAxios.mockResolvedValue(resp);
+  mockedAxios.mockResolvedValueOnce(res);
 
-  const { getByText } = render(<Compare />);
+  const { getAllByRole, container, getByLabelText } = render(<Compare />);
 
-  expect(mockedAxios).toHaveBeenCalled();
+  expect(mockedAxios).toHaveBeenCalled(); // check if api is called
   await waitFor(() => {
-    expect(getByText(/Selected Items/i)).toBeInTheDocument();
+    expect(getAllByRole("table")).toHaveLength(1); // check the table render
+    expect(container.querySelectorAll("th")).toHaveLength(4); // check the columns
   });
+
+  // check if the remove btn works
+  const removeBtn = container.getElementsByClassName("remove")[0];
+  fireEvent.click(removeBtn);
+  expect(container.querySelectorAll("th")).toHaveLength(3);
+
+  // check if the hide/show input works
+  const inputSelector = getByLabelText(products[1].name);
+  fireEvent.click(inputSelector);
+  const table = container.getElementsByTagName("table")[0];
+  expect(table).toHaveClass("hide_c2");
 });
