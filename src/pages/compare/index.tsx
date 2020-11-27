@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "config/axios.config";
-import Table, { Thead } from "components/Table";
+import Table, { Tbody, Thead } from "components/Table";
 import Image from "components/_Base/Image";
 import _ from "lodash";
 import sass from "./compare.module.scss";
@@ -56,59 +56,55 @@ const Compare = () => {
     fetch();
   }, []);
 
-  const head = (
-    <Thead className={sass.tableHeaderCell}>
-      <div>
-        <form className={sass.form}>
-          <h3>Selected Items</h3>
-          {products.map((product, i) => (
-            <div key={product?.sku}>
-              <input
-                type="checkbox"
-                id={"p" + i}
-                checked={!hiddenColumns[i + 1]}
-                onChange={productVisibility(i + 1)}
-              />
-              <label htmlFor={"p" + i}>{product.name}</label>
-            </div>
-          ))}
-        </form>
-      </div>
-      {/* header for each item */}
-      {products.map((product, i) => (
-        <div key={product.sku}>
-          <button className="link remove" onClick={() => removeProduct(i)}>
-            <img width={20} src="/rmv.svg" alt="remove" />
-          </button>
-          <Image
-            className={sass.primaryImg}
-            src={product.productImage}
-            alt={product.name}
-          />
-          <h2>{product.name}</h2>
-          <strong className={sass.price}>{product.salePrice}</strong>
-          <p className={sass.subPrice}>per stuck / excl. btw</p>
-          <hr />
-          {!product.badges
-            ? ""
-            : (product.badges as string)
-                .split("|")
-                .map((b, i) => <Image key={i} src={b} alt="" width="20" />)}
-        </div>
-      ))}
-    </Thead>
-  );
-
   // remove unwanted key in product object
   const data = products.map((product) => _.omit(product, NOT_COMPARABLE));
 
   return (
-    <Table
-      className={sass.table}
-      header={head}
-      data={data}
-      hiddenColumns={hiddenColumns}
-    />
+    <Table className={sass.table} hiddenColumns={hiddenColumns}>
+      {/* table header */}
+      <Thead className={sass.tableHeaderCell}>
+        <div>
+          <form className={sass.form}>
+            <h3>Selected Items</h3>
+            {products.map((product, i) => (
+              <div key={product?.sku}>
+                <input
+                  type="checkbox"
+                  id={"p" + i}
+                  checked={!hiddenColumns[i + 1]}
+                  onChange={productVisibility(i + 1)}
+                />
+                <label htmlFor={"p" + i}>{product.name}</label>
+              </div>
+            ))}
+          </form>
+        </div>
+        {/* header for each item */}
+        {products.map((product, i) => (
+          <div key={product.sku}>
+            <button className="link remove" onClick={() => removeProduct(i)}>
+              <img width={20} src="/rmv.svg" alt="remove" />
+            </button>
+            <Image
+              className={sass.primaryImg}
+              src={product.productImage}
+              alt={product.name}
+            />
+            <h2>{product.name}</h2>
+            <strong className={sass.price}>{product.salePrice}</strong>
+            <p className={sass.subPrice}>per stuck / excl. btw</p>
+            <hr />
+            {!product.badges
+              ? ""
+              : (product.badges as string)
+                  .split("|")
+                  .map((b, i) => <Image key={i} src={b} alt="" width="20" />)}
+          </div>
+        ))}
+      </Thead>
+      {/* table body */}
+      <Tbody data={data}></Tbody>
+    </Table>
   );
 };
 

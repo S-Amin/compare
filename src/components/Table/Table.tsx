@@ -1,18 +1,17 @@
-import React, { HTMLAttributes, ReactNodeArray } from "react";
+import React, { HTMLAttributes, ReactNodeArray, ReactElement } from "react";
 import Tbody from "./Tbody";
-import { IData } from "../../shared/_type";
+import Thead from "./Thead";
 import sass from "./table.module.scss";
 
 export interface ITable extends HTMLAttributes<HTMLTableElement> {
   header?: JSX.Element | ReactNodeArray;
-  data: IData[];
   hiddenColumns?: boolean[];
 }
 const Table: React.FC<ITable> = ({
   header,
-  data,
   hiddenColumns,
   className,
+  children,
   ...props
 }) => {
   // hide columns with css for better performance
@@ -21,11 +20,20 @@ const Table: React.FC<ITable> = ({
     if (val) classes += " " + sass["hide_c" + (i + 1)];
   });
 
+  const HEAD: ReactElement[] = [];
+  const BODY: ReactElement[] = [];
+
+  React.Children.map(children, (c) => {
+    const child = c as ReactElement;
+    if (child.type === Thead) HEAD.push(child);
+    if (child.type === Tbody) BODY.push(child);
+  });
+
   return (
     <div>
       <table className={`${sass.table} ${classes} ${className}`} {...props}>
-        {header}
-        <Tbody data={data} />
+        {HEAD}
+        {BODY}
       </table>
     </div>
   );
